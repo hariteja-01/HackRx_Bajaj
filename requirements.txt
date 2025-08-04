@@ -1,8 +1,9 @@
 fastapi
+gunicorn
 uvicorn[standard]
+python-docx
+pypdf
+sentence-transformers
+chromadb
 google-generativeai
 python-dotenv
-chromadb
-sentence-transformers
-pypdf
-python-docx
