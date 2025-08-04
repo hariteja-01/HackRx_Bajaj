@@ -1,6 +1,8 @@
 #!/bin/bash
+# Exit immediately if a command exits with a non-zero status.
+set -e
 
-echo "--- Starting Document Processing System ---"
+echo "--- Starting Document Processing System (Development) ---"
 
 # Check if python3 is available
 if ! command -v python3 &> /dev/null
@@ -9,30 +11,27 @@ then
     exit 1
 fi
 
-# Create a virtual environment if it doesn't exist
+# Create and activate a virtual environment
 if [ ! -d "venv" ]; then
     echo "Creating Python virtual environment..."
     python3 -m venv venv
 fi
-
-# Activate the virtual environment
 source venv/bin/activate
 
-# Install dependencies
+# Install dependencies quietly
 echo "Installing dependencies from requirements.txt..."
 pip install -q -r requirements.txt
 
-# Create necessary directories if they don't exist
+# Create necessary directories
 mkdir -p documents
 mkdir -p vector_store
 
 echo "--------------------------------------------------------"
-echo "Setup complete. Starting FastAPI server..."
-echo "Place your PDF and DOCX files in the 'documents' folder."
+echo "✅ Setup complete. Starting FastAPI server with auto-reload..."
 echo "API will be available at http://127.0.0.1:8000"
 echo "View interactive API docs at http://127.0.0.1:8000/docs"
 echo "Press CTRL+C to stop the server."
 echo "--------------------------------------------------------"
 
-# Run the FastAPI application
-uvicorn app:app --host 0.0.0.0 --port 8000
+# Run the FastAPI application with auto-reload for development
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
